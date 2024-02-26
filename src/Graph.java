@@ -55,11 +55,11 @@ public class Graph {
     System.out.println(this.roads);
   }
 
-  public void calculerItineraireMinimisantNombreRoutes(String ville1, String ville2){
+  public void calculerItineraireMinimisantNombreRoutes(String source, String destination){
 
   }
 
-  public void calculerItineraireMinimisantKm(String ville1, String ville2){
+  public void calculerItineraireMinimisantKm(String source, String destination){
 
   }
 
