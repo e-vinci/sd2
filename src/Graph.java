@@ -9,13 +9,15 @@ import java.util.Map;
 
 public class Graph {
 
-  private Map<Integer, String> cities;
+  private Map<Integer, String> intToCities;
+  private Map<String, Integer> citiesToInt;
   private Map<Integer, List<Double>> coordinates;
   private Map<Integer, Integer> roads;
 
   public Graph (File cities, File roads){
 
-    this.cities = new HashMap<>();
+    this.intToCities = new HashMap<>();
+    this.citiesToInt = new HashMap<>();
     this.coordinates = new HashMap<>();
     this.roads = new HashMap<>();
 
@@ -25,7 +27,8 @@ public class Graph {
       while ((cityLine = brCities.readLine()) != null) {
 
         String[] city = cityLine.split(",");
-        this.cities.put(Integer.parseInt(city[0]), city[1]);
+        this.intToCities.put(Integer.parseInt(city[0]), city[1]);
+        this.citiesToInt.put(city[1], Integer.parseInt(city[0]));
         this.coordinates.put(Integer.parseInt(city[0]), new ArrayList<>());
         coordinates.get(Integer.parseInt(city[0])).add(Double.parseDouble(city[2]));
         coordinates.get(Integer.parseInt(city[0])).add(Double.parseDouble(city[3]));
@@ -46,7 +49,8 @@ public class Graph {
       e.printStackTrace();
     }
 
-    System.out.println(this.cities);
+    System.out.println(this.intToCities);
+    System.out.println(this.citiesToInt);
     System.out.println(this.coordinates);
     System.out.println(this.roads);
   }
