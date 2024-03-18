@@ -77,10 +77,15 @@ public class Graph {
       int villeSuivante = file.poll();
       villesVisitees.add(villeSuivante);
 
-      if (!intToCities.get(villeSuivante).equals(destination))
+      if (!intToCities.get(villeSuivante).equals(destination)) {
+        if (file.isEmpty()) {
+          throw new RuntimeException();
+        }
         villeActuelle = villeSuivante;
-      else
+      }
+      else {
         arrive = true;
+      }
     }
 
     int to = citiesToInt.get(destination);
@@ -109,16 +114,6 @@ public class Graph {
   }
 
   public void calculerItineraireMinimisantKm(String source, String destination){
-    double[] chemins = new double[intToCities.size()];
-    double[] etiquettes = new double[intToCities.size()];
-
-    int numSource = citiesToInt.get(source);
-    chemins[numSource] = 0;
-    etiquettes[numSource] = 0;
-
-    double latSource = coordinates.get(citiesToInt.get(source)).get(1);
-    double lonSource = coordinates.get(citiesToInt.get(source)).get(0);
-
 
   }
 
