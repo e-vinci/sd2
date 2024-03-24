@@ -114,6 +114,60 @@ public class Graph {
   }
 
   public void calculerItineraireMinimisantKm(String source, String destination){
+    Map<Integer, Double> etiquetteTmp = new HashMap<>();
+    Map<Integer, Double> etiquetteFinale = new HashMap<>();
+    Map<Integer, Integer> origine = new HashMap<>();
+
+    int current = citiesToInt.get(source);
+    etiquetteTmp.put(citiesToInt.get(source), 0.0);
+
+    while(!etiquetteFinale.containsKey(citiesToInt.get(destination))) {
+      double min = -1;
+      for(int i : etiquetteTmp.keySet()) {
+        if(etiquetteTmp.get(i) < min || min == -1) {
+          min = etiquetteTmp.get(i);
+          current = i;
+        }
+      }
+
+      if(min == -1)
+        throw new RuntimeException();
+
+      etiquetteTmp.remove(current);
+      etiquetteFinale.put(current, min);
+      Set<Integer> routes = roads.get(current);
+      for(int i : routes) {
+        double distance = Util.distance(coordinates.get(current).get(0), coordinates.get(current).get(1),
+            coordinates.get(i).get(0), coordinates.get(i).get(1)) + min;
+        if((etiquetteTmp.get(i) == null || distance < etiquetteTmp.get(i)) && !etiquetteFinale.containsKey(i)) {
+          origine.put(i, current);
+          etiquetteTmp.put(i, distance);
+        }
+      }
+    }
+    int to = citiesToInt.get(destination);
+    int from;
+    boolean revenu = false;
+    String s = "";
+    int nbRoutes = 0;
+    double nbKm = 0;
+
+    while(!revenu){
+      from = origine.get(to);
+      double distance = Util.distance(coordinates.get(from).get(0), coordinates.get(from).get(1),
+          coordinates.get(to).get(0), coordinates.get(to).get(1));
+
+      s = intToCities.get(from) + " -> " + intToCities.get(to) + " (" + String.format("%.2f", distance) + " km)\n" + s;
+
+      nbRoutes++;
+      nbKm += distance;
+
+      to = from;
+      if(from == citiesToInt.get(source))
+        revenu = true;
+    }
+    s = "Itinéraire de " + source + " à " + destination + ": " + nbRoutes + " routes et " + nbKm + " km\n" + s;
+    System.out.println(s);
 
   }
 
